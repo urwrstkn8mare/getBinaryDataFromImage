@@ -1,6 +1,3 @@
-import time
-
-
 def progressBar(percentage: float, endr=True):
     toPrint = ""
     outOfTen = int(percentage.__round__(-1) / 10)
@@ -20,18 +17,20 @@ def progressBar(percentage: float, endr=True):
 
 
 def toBin(integer: int) -> str:
-    return f'{integer:08b}'
+    return f"{integer:08b}"
 
 
-def main(filename: str):
+def main(filename: str, size):
     if filename.find("\\") != -1 or filename.find("/") != -1:
-        print("Only input the name of the file, not the path.\n" +
-              "It should be in \"test/in\". ")
+        print(
+            "Only input the name of the file, not the path.\nIt should be "
+            'in "test/in".'
+        )
         return
     from PIL import Image
-    im = Image.open("test/in/" + filename).convert(
-        mode="RGB").rotate(90)
-    im.thumbnail((16, 16))
+
+    im = Image.open("test/in/" + filename).convert(mode="RGB").rotate(90)
+    im.thumbnail(size)
     width, height = im.size
     pix = im.load()
     binary = toBin(width) + toBin(height) + toBin(24)
@@ -47,7 +46,9 @@ def main(filename: str):
             endr = True
             if i == width - 1 and ii == height - 1:
                 endr = False
-            progressBar((((i*height)+ii+1) / totalPixels) * 100, endr)
+            progressBar(
+                (((i * height) + ii + 1) / totalPixels) * 100, endr
+            )
             ii += 1
         i += 1
 
@@ -58,5 +59,4 @@ def main(filename: str):
     return
 
 
-# main(input("File path: "))
-main("unnamed.gif")
+main("example.png", (255, 255))
