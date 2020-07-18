@@ -23,13 +23,12 @@ def toBin(integer: int) -> str:
 def main(filename: str, size):
     if filename.find("\\") != -1 or filename.find("/") != -1:
         print(
-            "Only input the name of the file, not the path.\nIt should be "
-            'in "test/in".'
+            "Only input the name of the file, not the path.\nIt should be " 'in the folder, "in/".'
         )
         return
     from PIL import Image
 
-    im = Image.open("test/in/" + filename).convert(mode="RGB").rotate(90)
+    im = Image.open("in/" + filename).convert(mode="RGB").rotate(90)
     im.thumbnail(size)
     width, height = im.size
     pix = im.load()
@@ -46,17 +45,17 @@ def main(filename: str, size):
             endr = True
             if i == width - 1 and ii == height - 1:
                 endr = False
-            progressBar(
-                (((i * height) + ii + 1) / totalPixels) * 100, endr
-            )
+            progressBar((((i * height) + ii + 1) / totalPixels) * 100, endr)
             ii += 1
         i += 1
 
-    f = open("test/out/binary_" + filename + "_.txt", "w+")
+    f = open("out/" + filename + "_binary_.txt", "w+")
     f.write(binary)
     f.close()
     print("Total bits: " + str(binary.__len__()))
     return
 
 
-main("example.png", (255, 255))
+if __name__ == "__main__":
+    size = tuple([int(i) for i in input("Size h,w: ").strip().split(",")])
+    main(input("Name of input image file (eg. example.png): "), size)
